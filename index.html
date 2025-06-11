@@ -14,7 +14,6 @@
       --label-color: #ffffff;
       --highlight-color: #0d6efd;
     }
-    
     .light-mode {
       --bg-color: #f5f5f5;
       --text-color: #333333;
@@ -24,13 +23,22 @@
       --label-color: #222222;
       --highlight-color: #0a58ca;
     }
-    
     body {
       font-family: Arial, sans-serif;
       background-color: var(--bg-color);
       color: var(--text-color);
       padding: 20px;
       transition: background-color 0.3s, color 0.3s;
+      /* Background image styling */
+      background-image: linear-gradient(rgba(18,18,18,0.86), rgba(18,18,18,0.94)), url('https://i.imgur.com/Lsl5RSb.jpeg');
+      background-size: cover;
+      background-position: center center;
+      background-attachment: fixed;
+      min-height: 100vh;
+    }
+    .light-mode {
+      /* Overlay for light mode */
+      background-image: linear-gradient(rgba(245,245,245,0.92), rgba(245,245,245,0.97)), url('https://i.imgur.com/Lsl5RSb.jpeg');
     }
     .logo {
       display: flex;
@@ -59,10 +67,18 @@
       background: var(--container-bg);
       padding: 20px;
       border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      box-shadow: 0 8px 32px 0 rgba(0,0,0,0.37), 0 0 0 2000px rgba(0,0,0,0.12) inset;
       max-width: 600px;
       margin: auto;
       transition: background-color 0.3s;
+      backdrop-filter: blur(10px);
+      /* glass effect */
+      background: linear-gradient(120deg, rgba(30,30,30,0.90) 60%, rgba(45,45,45,0.60) 100%);
+    }
+    .light-mode form {
+      background: linear-gradient(120deg, rgba(255,255,255,0.85) 60%, rgba(245,245,245,0.75) 100%);
+      box-shadow: 0 8px 32px 0 rgba(0,0,0,0.10), 0 0 0 2000px rgba(255,255,255,0.09) inset;
+      backdrop-filter: blur(12px);
     }
     label {
       display: block;
@@ -104,6 +120,25 @@
       padding-left: 20px;
       margin-top: 10px;
     }
+    .delete-btn {
+      margin-left: 10px;
+      color: #ff4444;
+      cursor: pointer;
+      font-size: 0.8em;
+    }
+    #evidence, #warrant {
+      height: 60px;
+      min-height: 10px;
+      max-height: 10px;
+      resize: none;
+    }
+    /* Optional: Slight shadow/glow for the form to stand out more on the image */
+    @media (max-width: 700px) {
+      form {
+        padding: 10px;
+        max-width: 98vw;
+      }
+    }
   </style>
 </head>
 <body>
@@ -128,13 +163,37 @@
       <option value="Passive">Passive</option>
     </select>
 
-    <label>Name of Deployment Team Leader:</label>
-    <input type="text" id="leader" required />
+    <label for="leaderSelect">Name of Deployment Team Leader:</label>
+    <select id="leaderSelect" name="leader" required>
+      <option value="">-- Select Leader --</option>
+      <option value="Bill Breacher">Police Captain II Bill Breacher</option>
+      <option value="Alex Sorvanis">Police Lieutenant ΙΙ Alex Sorvanis</option>
+      <option value="Alaska Sorvanis">Police Sergeant Ι Alaska Sorvanis</option>
+      <option value="Percy Heines">Police Officer III Percy Heines</option>
+      <option value="Don Mozzarella">Police Officer III Don Mozzarella</option>
+      <option value="Valkyrie Winger">Police Officer II Valkyrie Winger</option>
+      <option value="Cain Cooper">Police Officer III Cain Cooper</option>
+      <option value="Cody James">Police Officer III Cody James</option>
+      <option value="Rex Blackthorn">Police Officer III Rex Blackthorn</option>
+      <option value="Austin Reese">Police Officer III Austin Reese</option>
+      <option value="Oli Greenwood">Police Officer II Oli Greenwood</option>
+      <option value="Brian Dox">Police Officer III+1 Brian Dox</option>
+      <option value="Gankis Gankiunaitis">Police Officer III Gankis Gankiunaitis</option>
+      <option value="Rio Castillo">Police Officer III Rio Castillo</option>
+      <option value="Max Finnegan">Police Officer II Max Finnegan</option>
+      <option value="Joseph Sanchez">Police Lieutenant I Joseph Sanchez</option>
+      <option value="Peter Stanford">Police Officer III Peter Stanford</option>
+      <option value="Charles Williams">Police Lieutenant I Charles Williams</option>
+      <option value="Aiden Beta">Police Sergeant I Aiden Beta</option>
+      <option value="Jamie Lockwood">Police Sergeant II Jamie Lockwood</option>
+      <option value="Carl Jacobs">Police Officer III+1 Carl Jacobs</option>
+      <option value="Philip Mahone">Police Sergeant II Philip Mahone</option>
+      <option value="Laurant Conrad">Police Sergeant I Laurant Conrad</option>
+    </select>
 
     <label for="officerSelect">Participating SWAT Officers:</label>
     <select id="officerSelect" onchange="addOfficer()">
       <option value="">-- Select Officer --</option>
-      <option value="Gareth Longford">Police Commander Gareth Longford</option>
       <option value="Bill Breacher">Police Captain II Bill Breacher</option>
       <option value="Alex Sorvanis">Police Lieutenant ΙΙ Alex Sorvanis</option>
       <option value="Alaska Sorvanis">Police Sergeant Ι Alaska Sorvanis</option>
@@ -165,7 +224,6 @@
     <label for="lowProfileSelect">Low Profile SWAT Officers:</label>
     <select id="lowProfileSelect" onchange="addLowProfileOfficer()">
       <option value="">-- Select Officer --</option>
-      <option value="Gareth Longford">Police Commander Gareth Longford</option>
       <option value="Bill Breacher">Police Captain II Bill Breacher</option>
       <option value="Alex Sorvanis">Police Lieutenant ΙΙ Alex Sorvanis</option>
       <option value="Alaska Sorvanis">Police Sergeant Ι Alaska Sorvanis</option>
@@ -194,16 +252,18 @@
     <input type="hidden" name="lowProfile" id="lowProfileInput">
 
     <label>Suspect(s) Involved:</label>
-    <input type="text" id="suspects" required />
+    <input type="text" id="suspectInput" placeholder="Type suspect name and press Enter" />
+    <ul id="suspectList" class="selected-list"></ul>
+    <input type="hidden" name="suspects" id="suspectsInput">
 
     <label>Deployment Summary:</label>
     <textarea id="summary" rows="4" required></textarea>
 
     <label>Evidence (If Applicable):</label>
-    <textarea id="evidence" rows="4"></textarea>
+    <textarea id="evidence" rows="2"></textarea>
 
     <label>Copy of Warrant:</label>
-    <textarea id="warrant" rows="4"></textarea>
+    <textarea id="warrant" rows="2"></textarea>
 
     <label>Deployment Outcome:</label>
     <select id="outcome">
@@ -217,6 +277,7 @@
   <script>
     const officerSet = new Set();
     const lowProfileSet = new Set();
+    const suspectSet = new Set();
 
     function addOfficer() {
       const select = document.getElementById('officerSelect');
@@ -227,9 +288,21 @@
       const list = document.getElementById('officerList');
       const li = document.createElement('li');
       li.textContent = value;
+
+      const deleteBtn = document.createElement('span');
+      deleteBtn.className = 'delete-btn';
+      deleteBtn.textContent = '×';
+      deleteBtn.onclick = () => {
+        list.removeChild(li);
+        officerSet.delete(value);
+        document.getElementById('officersInput').value = Array.from(officerSet).join(',');
+      };
+
+      li.appendChild(deleteBtn);
       list.appendChild(li);
 
       document.getElementById('officersInput').value = Array.from(officerSet).join(',');
+      select.value = '';
     }
 
     function addLowProfileOfficer() {
@@ -241,9 +314,46 @@
       const list = document.getElementById('lowProfileList');
       const li = document.createElement('li');
       li.textContent = value;
+
+      const deleteBtn = document.createElement('span');
+      deleteBtn.className = 'delete-btn';
+      deleteBtn.textContent = '×';
+      deleteBtn.onclick = () => {
+        list.removeChild(li);
+        lowProfileSet.delete(value);
+        document.getElementById('lowProfileInput').value = Array.from(lowProfileSet).join(',');
+      };
+
+      li.appendChild(deleteBtn);
+      list.appendChild(li);
+      document.getElementById('lowProfileInput').value = Array.from(lowProfileSet).join(',');
+      select.value = '';
+    }
+
+    function addSuspect() {
+      const input = document.getElementById('suspectInput');
+      const value = input.value.trim();
+      if (!value || suspectSet.has(value)) return;
+      suspectSet.add(value);
+
+      const list = document.getElementById('suspectList');
+      const li = document.createElement('li');
+      li.textContent = value;
+
+      const deleteBtn = document.createElement('span');
+      deleteBtn.className = 'delete-btn';
+      deleteBtn.textContent = '×';
+      deleteBtn.onclick = () => {
+        list.removeChild(li);
+        suspectSet.delete(value);
+        document.getElementById('suspectsInput').value = Array.from(suspectSet).join(',');
+      };
+
+      li.appendChild(deleteBtn);
       list.appendChild(li);
 
-      document.getElementById('lowProfileInput').value = Array.from(lowProfileSet).join(',');
+      document.getElementById('suspectsInput').value = Array.from(suspectSet).join(',');
+      input.value = '';
     }
 
     function formatImages(text) {
@@ -254,7 +364,7 @@
       document.body.classList.toggle('light-mode');
       const icon = document.getElementById('themeIcon');
       const text = document.getElementById('themeText');
-      
+
       if (document.body.classList.contains('light-mode')) {
         icon.textContent = '🌞';
         text.textContent = 'Light Mode';
@@ -264,16 +374,23 @@
       }
     }
 
+    document.getElementById('suspectInput').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        addSuspect();
+      }
+    });
+
     document.getElementById('deploymentForm').addEventListener('submit', function(event) {
       event.preventDefault();
 
       const hours = document.getElementById('hours').value || 0;
       const minutes = document.getElementById('minutes').value || 0;
       const type = document.getElementById('type').value;
-      const leader = document.getElementById('leader').value;
+      const leader = document.getElementById('leaderSelect').value;
       const officers = document.getElementById('officersInput').value.split(',').filter(o => o);
       const lowProfile = document.getElementById('lowProfileInput').value.split(',').filter(o => o);
-      const suspects = document.getElementById('suspects').value;
+      const suspects = document.getElementById('suspectsInput').value.split(',').filter(s => s);
       const summary = document.getElementById('summary').value;
       const evidence = formatImages(document.getElementById('evidence').value);
       const warrant = formatImages(document.getElementById('warrant').value);
@@ -305,14 +422,13 @@ ${lowProfile.map(o => `[*]${o}`).join("\n")}
 
 [b]Suspect(s) Involved:[/b]
 [list]
-[*]${suspects}
+${suspects.map(s => `[*]${s}`).join("\n")}
 [/list]
 
 [b]Deployment Summary:[/b]
 [list]
 [*]${summary}
 [/list]
-
 [b]Evidence (If Applicable):[/b]
 [spoiler]
 [i]${evidence || 'List Evidence and/or place pictures of any evidence here.'}[/i]
