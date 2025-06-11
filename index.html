@@ -77,9 +77,11 @@
       padding: 24px 28px;
       border-radius: 10px;
       box-shadow: 0 8px 32px 0 rgba(0,0,0,0.37), 0 0 0 2000px rgba(0,0,0,0.12) inset;
+      /* Responsive width: */
+      width: 90%;
       max-width: 600px;
       margin: auto;
-      transition: background-color 0.3s;
+      transition: background-color 0.3s, width 0.3s;
       backdrop-filter: blur(10px);
       background: linear-gradient(120deg, rgba(30,30,30,0.92) 60%, rgba(45,45,45,0.70) 100%);
       border: 1px solid var(--border-color);
@@ -107,6 +109,7 @@
       font-size: 1em;
       transition: all 0.3s;
       outline: none;
+      box-sizing: border-box;
     }
     select:focus, input:focus, textarea:focus {
       border-color: var(--highlight-color);
@@ -196,11 +199,17 @@
     }
     @media (max-width: 700px) {
       form {
+        width: 98vw;
         padding: 10px;
-        max-width: 98vw;
       }
       .modal-content {
         padding: 12px 6px;
+      }
+    }
+    @media (max-width: 400px) {
+      form {
+        width: 100vw;
+        padding: 2px;
       }
     }
   </style>
