@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SWAT Deployment Test Branch</title>
+  <title>SWAT Deployment Log</title>
   <style>
     :root {
       --bg-color: #121212;
@@ -33,14 +33,14 @@
       color: var(--text-color);
       padding: 20px;
       transition: background-color 0.3s, color 0.3s;
-      background-image: linear-gradient(rgba(18,18,18,0.86), rgba(18,18,18,0.94)), url('https://i.imgur.com/Lsl5RSb.jpeg');
+      background-image: linear-gradient(rgba(18,18,18,0.86), rgba(18,18,18,0.94)), url('https://i.imgur.com/5mFQNsf.jpeg');
       background-size: cover;
       background-position: center center;
       background-attachment: fixed;
       min-height: 100vh;
     }
     .light-mode {
-      background-image: linear-gradient(rgba(245,245,245,0.92), rgba(245,245,245,0.97)), url('https://i.imgur.com/Lsl5RSb.jpeg');
+      background-image: linear-gradient(rgba(245,245,245,0.92), rgba(245,245,245,0.97)), url('https://i.imgur.com/5mFQNsf.jpeg');
     }
     .logo {
       display: flex;
@@ -277,9 +277,13 @@
 
     <div class="form-group">
       <label>Deployment Summary:</label>
-      <textarea id="summary" rows="4" maxlength="800" required></textarea>
-      <span class="char-counter" id="summaryCounter">0/800</span>
+      <textarea id="summary" rows="10" required></textarea>
+    
+    <div class="form-group">
+      <label>Notes for Areas of Improvement:</label>
+      <textarea id="improvementNotes" rows="10"></textarea>
     </div>
+</div>
 
     <div class="form-group">
       <label>Evidence (If Applicable):</label>
@@ -465,7 +469,7 @@
       const field = document.getElementById(id.replace('Counter',''));
       el.textContent = field.value.length + '/' + max;
     }
-    ['summary','evidence','warrant'].forEach(field => {
+    ['evidence','warrant'].forEach(field => {
       document.getElementById(field).addEventListener('input', () => updateCounter(field+'Counter', document.getElementById(field).maxLength));
     });
 
@@ -490,7 +494,8 @@
         summary: document.getElementById('summary').value,
         evidence: document.getElementById('evidence').value,
         warrant: document.getElementById('warrant').value,
-        outcome: document.getElementById('outcome').value
+        outcome: document.getElementById('outcome').value,
+        improvementNotes: document.getElementById('improvementNotes').value
       };
       localStorage.setItem('swatForm', JSON.stringify(data));
     }
@@ -505,7 +510,8 @@
       document.getElementById('evidence').value = data.evidence || '';
       document.getElementById('warrant').value = data.warrant || '';
       document.getElementById('outcome').value = data.outcome || 'Successful';
-      updateCounter('summaryCounter',800);
+      document.getElementById('improvementNotes').value = data.improvementNotes || '';
+      
       updateCounter('evidenceCounter',500);
       updateCounter('warrantCounter',500);
       // Officers
@@ -653,6 +659,11 @@ ${suspects.map(s => `[*]${s}`).join("\n")}
 [list]
 [*]${summary}
 [/list]
+
+[b]Notes for Areas of Improvement:[/b]
+[list]
+[*]${escapeHTML(document.getElementById('improvementNotes').value)}
+[/list]
 [b]Evidence (If Applicable):[/b]
 [spoiler]
 [i]${evidence || 'List Evidence and/or place pictures of any evidence here.'}[/i]
@@ -665,7 +676,9 @@ ${suspects.map(s => `[*]${s}`).join("\n")}
 
 [b]Deployment Outcome:[/b]  [highlight=${outcomeColor}][b]${outcome}[/b][/highlight]
 
+
 [/divbox]
+[size=3][right]Made by Alexx™[/right][/size]
 [img]https://i.imgur.com/88vzzHs.jpg[/img]`;
 
         navigator.clipboard.writeText(bbcode).then(() => {
