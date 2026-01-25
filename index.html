@@ -625,7 +625,7 @@
         const officers = document.getElementById('officersInput').value.split(',').filter(o => o);
         const lowProfile = document.getElementById('lowProfileInput').value.split(',').filter(o => o);
         const suspects = document.getElementById('suspectsInput').value.split(',').filter(s => s);
-        const summary = escapeHTML(document.getElementById('summary').value);
+        const summary = document.getElementById('summary').value;
         const evidence = formatImages(document.getElementById('evidence').value);
         const warrant = formatImages(document.getElementById('warrant').value);
         const outcome = document.getElementById('outcome').value;
