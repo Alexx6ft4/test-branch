@@ -339,13 +339,7 @@
       { value: "Aiden Beta", label: "Police Sergeant II Aiden Beta" },
       { value: "Jamie Lockwood", label: "Police Lieutenant I Jamie Lockwood" },
       { value: "Philip Mahone", label: "Police Lieutenant I Philip Mahone" },
-      { value: "Laurant Conrad", label: "Police Sergeant I Laurant Conrad" },
-      { value: "Cole Brooks", label: "Police Officer III Cole Brooks" },
-      { value: "Reggie Maximin", label: "Police Officer II Reggie Maximin" },
-      { value: "Nathan Callen", label: "Police Officer III Nathan Callen" },
-      { value: "Chris Malosh", label: "Police Officer II Chris Malosh" },
-      { value: "Rafael Mendoza", label: "Police Officer II Rafael Mendoza" },
-      { value: "Anthony Mercer", label: "Police Officer II Anthony Mercer" },
+      { value: "Laurant Conrad", label: "Police Sergeant I Laurant Conrad" }
     ];
 
     // Populate dropdowns
@@ -625,7 +619,7 @@
         const officers = document.getElementById('officersInput').value.split(',').filter(o => o);
         const lowProfile = document.getElementById('lowProfileInput').value.split(',').filter(o => o);
         const suspects = document.getElementById('suspectsInput').value.split(',').filter(s => s);
-        const summary = document.getElementById('summary').value;
+        const summary = escapeHTML(document.getElementById('summary').value);
         const evidence = formatImages(document.getElementById('evidence').value);
         const warrant = formatImages(document.getElementById('warrant').value);
         const outcome = document.getElementById('outcome').value;
@@ -663,7 +657,7 @@ ${suspects.map(s => `[*]${s}`).join("\n")}
 
 [b]Notes for Areas of Improvement:[/b]
 [list]
-[*]${}
+[*]${escapeHTML(document.getElementById('improvementNotes').value)}
 [/list]
 [b]Evidence (If Applicable):[/b]
 [spoiler]
@@ -693,4 +687,3 @@ ${suspects.map(s => `[*]${s}`).join("\n")}
   </script>
 </body>
 </html>
-
