@@ -360,7 +360,7 @@
     const suspectSet = new Set();
 
     function escapeHTML(str) {
-      return str.replace(/[&<>"']/g, tag => ({
+      return str.replace(/[&<>"]/g, tag => ({
         '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
       }[tag]));
     }
@@ -687,3 +687,4 @@ ${suspects.map(s => `[*]${s}`).join("\n")}
   </script>
 </body>
 </html>
+
